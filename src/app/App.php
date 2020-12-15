@@ -11,6 +11,7 @@
 namespace DTT;
 
 use DTT\Managers\TemplateManager;
+use DTT\Services\CalculateService;
 use DTT\Services\DataService;
 use DTT\Services\ValidatorService;
 
@@ -74,6 +75,12 @@ class App
                 $this->loadTemplate($data);
                 return false;
             }
+
+            $CalculateService = new CalculateService($DataService);
+
+            $data['c_coors'] = $CalculateService->getCPointCoordiantes();
+            
+            $data['d_coors'] = $CalculateService->getDPointCoordiantes();
         }
 
         $this->loadTemplate($data);

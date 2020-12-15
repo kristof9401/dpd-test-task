@@ -89,10 +89,16 @@
             2.
         </p>
         <p>
-            Point C:
+            Point C: 
+            <span>
+                <?php echo array_key_exists('c_coors', $data) ? $data['c_coors'] : '' ?>
+            </span>
         </p>
         <p>
-            Point D:
+            Point D: 
+            <span>
+                <?php echo array_key_exists('d_coors', $data) ? $data['d_coors'] : '' ?>
+            </span>
         </p>
     </div>
     <div class="result-block">
