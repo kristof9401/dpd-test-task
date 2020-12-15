@@ -1,6 +1,18 @@
 <?php
 
+/** 
+ * The Dpd Test Project App class.
+ * 
+ * We load other class here.
+ * 
+ * @author Molnár Kristóf <molnarkristof0@gmail.com>
+ */
+
 namespace DTT;
+
+use DTT\Managers\TemplateManager;
+use DTT\Services\DataService;
+use DTT\Services\ValidatorService;
 
 class App
 {
@@ -33,10 +45,50 @@ class App
     /**
      * Run the App class
      * 
-     * @return void 
+     * @return mixed 
      */
     public function run()
     {
-        
+        $data = [
+            'error_msg' => ''
+        ];
+
+        if (array_key_exists('gps-coors', $_REQUEST) && is_array($_REQUEST['gps-coors'])) {
+            $DataService = new DataService;
+            $initDataSuccess = $DataService->initCoordiates(
+                $_REQUEST['gps-coors']
+            );
+
+            if (!$initDataSuccess) {
+                $data['error_msg'] = "The coordinates are not given correctly.";
+                $this->loadTemplate($data);
+                return false;
+            }
+
+            $ValidatorService = new ValidatorService($DataService);
+
+            $ValidatorService->checkCoordinates();
+
+            if (!empty($ValidatorService->getErrorMessage())) {
+                $data['error_msg'] .= $ValidatorService->getErrorMessage();
+                $this->loadTemplate($data);
+                return false;
+            }
+        }
+
+        $this->loadTemplate($data);
+    }
+
+    /**
+     * It loads the TemplateManager class.
+     * 
+     * @param array $data 
+     * @return void 
+     */
+    public function loadTemplate(array $data) : void
+    {
+        $TemplateManager = new TemplateManager;
+
+        $TemplateManager->loadForm($data);
     }
 }
