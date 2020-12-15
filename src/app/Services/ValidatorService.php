@@ -13,6 +13,13 @@ namespace DTT\Services;
 class ValidatorService
 {
     /**
+     * It stores the coordinates of A and B points.
+     * 
+     * @var DataService
+     */
+    private $DataService;
+
+    /**
      * It contains the error message.
      * 
      * @var string
@@ -67,7 +74,6 @@ class ValidatorService
             $this->errorMessage .= "The longitude coordinate of B point is invalid\r\n";
         }
     }
-
 
     /**
      * Get it contains the error message.
