@@ -1,0 +1,19 @@
+{
+    "name": "kristoft9401/dpd-test-task",
+    "description": "It is the test project for the job application.",
+    "type": "project",
+    "config": {
+        "vendor-dir": "src/app/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "DTT\\" : "src/app/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.1.0"
+    }
+}
