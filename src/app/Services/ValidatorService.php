@@ -60,7 +60,7 @@ class ValidatorService
     }
 
     /**
-     * It checks the longitudes coordinates are between -90 and 90;
+     * It checks the longitude coordinates are between -180 and 180;
      * 
      * @return void 
      */
@@ -76,7 +76,7 @@ class ValidatorService
     }
 
     /**
-     * Get it contains the error message.
+     * It retrieves the error message.
      *
      * @return  string
      */ 

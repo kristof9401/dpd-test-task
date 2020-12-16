@@ -11,7 +11,7 @@ namespace DTT\Services;
 class DataService
 {
     /**
-     * The latitude coordiante of A point.
+     * The latitude coordinate of A point.
      * 
      * @var float
      */
@@ -45,13 +45,6 @@ class DataService
      */
     private $cooridnateKeys;
 
-    /**
-     * It stores the error message.
-     * 
-     * @var string
-     */
-    private $errorMessage;
-
     public function __construct()
     {
         $this->cooridnateKeys = [
@@ -63,7 +56,7 @@ class DataService
     }
 
     /**
-     * It initializes the coordiates. Return with false on failure.
+     * It initializes the coordinates. Returns with false on failure.
      * 
      * @param array $data 
      * @return void 
@@ -84,7 +77,7 @@ class DataService
     }
 
     /**
-     * Get the latitude coordiante of A point.
+     * Get the latitude coordinate of A point.
      *
      * @return  float
      */ 
@@ -104,7 +97,7 @@ class DataService
     }
 
     /**
-     * Get the latitude coordinate of b point.
+     * Get the latitude coordinate of B point.
      *
      * @return  float
      */ 
@@ -114,7 +107,7 @@ class DataService
     }
 
     /**
-     * Get the longitude coordinate of b point.
+     * Get the longitude coordinate of B point.
      *
      * @return  float
      */ 

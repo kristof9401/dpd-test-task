@@ -1,7 +1,7 @@
 <?php
 
 /** 
- * The TemplateManager class is responsikble for loding html templates.
+ * The TemplateManager class is responsible for loading html templates.
  * 
  * @author Molnár Kristóf <molnarkristof0@gmail.com>
  */
