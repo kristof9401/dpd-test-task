@@ -3,6 +3,7 @@
 /** 
  * @package     DPD Test Task
  * @author      Molnár Kristóf <molnarkristof0@gmail.com>
+ * @version     1.0.0
  */
 
 /**
