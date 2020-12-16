@@ -84,7 +84,9 @@ class App
 
             $data['perimeter'] = round($CalculateService->getPerimeter() * 1000, 2);
 
-            $data['area'] = round($CalculateService->getArea() * 1000 * 1000);
+            $data['area'] = round($CalculateService->getArea() * 1000 * 1000, 2);
+
+            $data['full_cost'] = $CalculateService->getCostOfArea();
         }
 
         $this->loadTemplate($data);

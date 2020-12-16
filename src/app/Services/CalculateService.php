@@ -18,9 +18,24 @@ class CalculateService
      */
     private $DataService;
 
+    /**
+     * It conatins the data of building elements.
+     * 
+     * @var array
+     */
+    private $config;
+
     public function __construct(DataService $dataService)
     {
         $this->DataService = $dataService;
+
+        $configPath = DTT_SRC_ROOT . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config'. DIRECTORY_SEPARATOR . 'default.php';
+
+        if (file_exists($configPath)) {
+            $this->config = require_once $configPath;
+        } else {
+            $this->config = [];
+        }
     }
 
     /**
@@ -68,45 +83,124 @@ class CalculateService
     }
 
     /**
+     * Get two distances: AC and AD
+     * 
+     * @return array 
+     */
+    public function getDistances() : array
+    {
+        $distance1 = $this->getDistanceInKmBetweenTwoGpsCoors(
+            $this->DataService->getALatitude(),
+            $this->DataService->getALongitude(),
+            $this->DataService->getBLatitude(),
+            $this->DataService->getALongitude()
+        );
+        
+        $distance2 = $this->getDistanceInKmBetweenTwoGpsCoors(
+            $this->DataService->getALatitude(),
+            $this->DataService->getALongitude(),
+            $this->DataService->getALatitude(),
+            $this->DataService->getBLongitude()
+        );
+
+        return [$distance1, $distance2];
+    }
+
+    /**
      * It retrieves the perimeter of a rectangle 'A, B, C and D' points.
      * 
      * @return float 
      */
     public function getPerimeter() : float
     {
-        $distance1 = $this->getDistanceInKmBetweenTwoGpsCoors(
-            $this->DataService->getALatitude(),
-            $this->DataService->getALongitude(),
-            $this->DataService->getBLatitude(),
-            $this->DataService->getALongitude()
-        );
-        
-        $distance2 = $this->getDistanceInKmBetweenTwoGpsCoors(
-            $this->DataService->getBLatitude(),
-            $this->DataService->getBLongitude(),
-            $this->DataService->getALatitude(),
-            $this->DataService->getBLongitude()
-        );
+        $distances = $this->getDistances();
 
-        return 2 * ($distance1 + $distance2);
+        return 2 * ($distances[0] + $distances[1]);
     }
 
-    public function getArea()
+    /**
+     * It retrieves the area of rectangle in squarekm.
+     * 
+     * @return float 
+     */
+    public function getArea() : float
     {
-        $distance1 = $this->getDistanceInKmBetweenTwoGpsCoors(
-            $this->DataService->getALatitude(),
-            $this->DataService->getALongitude(),
-            $this->DataService->getBLatitude(),
-            $this->DataService->getALongitude()
-        );
-        
-        $distance2 = $this->getDistanceInKmBetweenTwoGpsCoors(
-            $this->DataService->getBLatitude(),
-            $this->DataService->getBLongitude(),
-            $this->DataService->getALatitude(),
-            $this->DataService->getBLongitude()
-        );
+        $distances = $this->getDistances();
 
-        return $distance1 * $distance2;
+        return $distances[0] * $distances[1];
+    }
+
+    /**
+     * It calculates the total cost to encircle the area.
+     * 
+     * @return int 
+     */
+    public function getCostOfArea() : int
+    {
+        if (empty($this->config)) {
+            /**
+             * Config file is not loaded.
+             */
+            return false;
+        }
+
+        $distances = $this->getDistances();
+
+        $totalCost = 0;
+
+        $totalCost += 4 * $this->config['corner']['cost'];
+        $totalCost += 4 * $this->config['gate']['cost'];
+
+        /**
+         * The total cost of wire and column.
+         */
+        $wireAndColumnCost = 0;
+
+        foreach ($distances as $currDistance) {
+            $columnNeedNumber = 0;
+            $wireNeedNumber = 0;
+            /**
+             * Get distance in meters.
+             */
+            $currDistance = $currDistance * 1000;
+
+            /**
+             * We substract the length of corners.
+             */
+            $remainDistance = $currDistance -  2 * $this->config['corner']['size'];;
+
+            /**
+             * One gate need.
+             */
+            $remainDistance -= $this->config['gate']['size'];
+
+            /**
+             * 2 columns belong to a gate.
+             */
+            $remainDistance -= 2 * $this->config['column']['size'];
+
+            /**
+             * Round up number of wire because we can not buy half of it.
+             */
+            $wireNeedNumber = ceil($remainDistance / $this->config['wire']['size']);
+
+            /**
+             * The number of columns is half of number of wire, because one column connect two wire.
+             */
+            $columnNeedNumber = intval($wireNeedNumber / 2);
+
+            $remainDistance -= $columnNeedNumber * $this->config['column']['size'];
+
+            $wireNeedNumber = ceil($remainDistance / $this->config['wire']['size']);
+
+            /**
+             * We add plus 2 columns because the gate needs them.
+             */
+            $wireAndColumnCost += ($columnNeedNumber + 2) * $this->config['column']['cost'] + $wireNeedNumber * $this->config['wire']['cost'];
+        }
+
+        $totalCost = $totalCost + 2 * $wireAndColumnCost;
+
+        return $totalCost;
     }
 }
