@@ -49,6 +49,8 @@
             type="number"
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('a-point-latitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['a-point-latitude'] : '' ?>" 
             step="any"
+            min="-90"
+            max="90"
         />
         
         <label for="a-point-longitude">
@@ -60,6 +62,8 @@
             type="number"
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('a-point-longitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['a-point-longitude'] : '' ?>"
             step="any"
+            min="-180"
+            max="180"
         />
         
         <p class="field-row">
@@ -74,6 +78,8 @@
             type="number" 
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('b-point-latitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['b-point-latitude'] : '' ?>"
             step="any"
+            min="-90"
+            max="90"
         />
         
         <label for="b-point-longitude">
@@ -85,8 +91,10 @@
             type="number" 
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('b-point-longitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['b-point-longitude'] : '' ?>"
             step="any"
+            min="-180"
+            max="180"
         />
-    
+        
         <input type="submit" value="Calculate" class="send-button" />
     </form>
     <div class="result-block">
@@ -127,7 +135,7 @@
             5.
         </p>
         <p>
-            Total cost: 0 EUR
+            Total cost: <?php echo array_key_exists('full_cost', $data) ? $data['full_cost'] : '' ?> EUR
         </p>
     </div>
 
