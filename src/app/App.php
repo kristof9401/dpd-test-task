@@ -81,6 +81,10 @@ class App
             $data['c_coors'] = $CalculateService->getCPointCoordiantes();
             
             $data['d_coors'] = $CalculateService->getDPointCoordiantes();
+
+            $data['perimeter'] = round($CalculateService->getPerimeter() * 1000, 2);
+
+            $data['area'] = round($CalculateService->getArea() * 1000 * 1000);
         }
 
         $this->loadTemplate($data);

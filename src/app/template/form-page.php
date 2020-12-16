@@ -47,7 +47,9 @@
             id="a-point-latitude" 
             name="gps-coors[a-point-latitude]" 
             type="number"
-            value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('a-point-latitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['a-point-latitude'] : '' ?>" />
+            value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('a-point-latitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['a-point-latitude'] : '' ?>" 
+            step="any"
+        />
         
         <label for="a-point-longitude">
             Longitude
@@ -57,6 +59,7 @@
             name="gps-coors[a-point-longitude]"
             type="number"
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('a-point-longitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['a-point-longitude'] : '' ?>"
+            step="any"
         />
         
         <p class="field-row">
@@ -70,6 +73,7 @@
             name="gps-coors[b-point-latitude]"
             type="number" 
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('b-point-latitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['b-point-latitude'] : '' ?>"
+            step="any"
         />
         
         <label for="b-point-longitude">
@@ -80,6 +84,7 @@
             name="gps-coors[b-point-longitude]" 
             type="number" 
             value="<?php echo (array_key_exists('gps-coors', $_REQUEST) && array_key_exists('b-point-longitude', $_REQUEST['gps-coors'])) ? $_REQUEST['gps-coors']['b-point-longitude'] : '' ?>"
+            step="any"
         />
     
         <input type="submit" value="Calculate" class="send-button" />
@@ -106,7 +111,7 @@
             3.
         </p>
         <p>
-            Perimeter: 0 meter
+            Perimeter: <?php echo array_key_exists('perimeter', $data) ? $data['perimeter'] : '' ?> meter
         </p>
     </div>
     <div class="result-block">
@@ -114,7 +119,7 @@
             4.
         </p>
         <p>
-            Area: 0 squaremeter
+            Area: <?php echo array_key_exists('area', $data) ? $data['area'] : '' ?> squaremeter
         </p>
     </div>
     <div class="result-block">
